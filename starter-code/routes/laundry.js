@@ -16,6 +16,19 @@ router.get('/dashboard', (req, res, next) => {
   res.render('laundry/dashboard');
 });
 
+router.get('/launderers', (req, res, next) => {
+  User.find({ isLaunderer: true }, (err, launderersList) => {
+    if (err) {
+      next(err);
+      return;
+    }
+
+    res.render('laundry/launderers', {
+      launderers: launderersList
+    });
+  });
+});
+
 router.post('/launderers', (req, res, next) => {
   const userId = req.session.currentUser._id;
   const laundererInfo = {
